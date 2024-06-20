@@ -1,7 +1,10 @@
 // import http from "http";
 import app from "./src/app.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
-const PORT = 3000;
+const appName = process.env.APP_NAME;
+let port = process.env.PORT;
 
 const rotas = {
     "/": "Curso de Express API",
@@ -14,7 +17,6 @@ const rotas = {
 //     res.end(rotas[req.url]);
 // })
 
-
-app.listen(PORT, () => {
-    console.log("Servidor escutando!")
+app.listen(port, () => {
+    console.log("Servidor escutando, na porta: ", port)
 })

@@ -27,4 +27,13 @@ app.post("/livros", (req, res) => {
     res.status(201).send("Livro cadastrado com sucesso");
 })
 
+app.get("/livros/:id", (req, res) => {
+    res.status(200).json(buscaLivro(req.params.id));
+})
+
+function buscaLivro(id) {
+    const livro = livros.find(livro => livro.id === Number(id));
+    return livro || "Livro não encontrado";
+}
+
 export default app;

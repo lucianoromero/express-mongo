@@ -31,6 +31,26 @@ app.get("/livros/:id", (req, res) => {
     res.status(200).json(buscaLivro(req.params.id));
 })
 
+app.put("/livros/:id", (req, res) => {
+    const index = buscaLivroIndex(req.params.id);
+    livros[index].titulo = req.body.titulo;
+    //TODO melhorar esse retorno aqui para retornar o livro atualizado
+    res.status(201).json(buscaLivro(req.params.id));
+})
+
+app.delete('/livros/:id', (req, res) => {
+    const index = buscaLivroIndex(req.params.id);
+    livros.splice(index, 1);
+    res.status(200).send('Livro removido com sucesso.');
+});
+
+function buscaLivroIndex(id) {
+    return livros.findIndex(livro => {
+        return livro.id === Number(id);
+    })
+}
+
+
 function buscaLivro(id) {
     const livro = livros.find(livro => livro.id === Number(id));
     return livro || "Livro não encontrado";

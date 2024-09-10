@@ -1,6 +1,6 @@
 import express from 'express';
 import conectaNaDatabase from "./config/dbConnect.js";
-import livro  from "./models/Livro.js";
+import routes from "./routes/index.js";
 
 const conexao = await conectaNaDatabase();
 
@@ -13,37 +13,6 @@ conexao.once("open", () => {
 })
 
 const app = express();
-app.use(express.json());
-
-app.get("/", (req, res) => {
-    res.status(200).send("Curso de Node.js");
-});
-
-app.get("/livros", async (req, res) => {
-    const listaLivros = await livro.find({});
-    res.status(200).json(listaLivros);
-});
-
-app.post("/livros", (req, res) => {
-    livros.push(req.body);
-    res.status(201).send("Livro cadastrado com sucesso");
-})
-
-app.get("/livros/:id", (req, res) => {
-    res.status(200).json(buscaLivro(req.params.id));
-})
-
-app.put("/livros/:id", (req, res) => {
-    const index = buscaLivroIndex(req.params.id);
-    livros[index].titulo = req.body.titulo;
-    //TODO melhorar esse retorno aqui para retornar o livro atualizado
-    res.status(201).json(buscaLivro(req.params.id));
-})
-
-app.delete('/livros/:id', (req, res) => {
-    const index = buscaLivroIndex(req.params.id);
-    livros.splice(index, 1);
-    res.status(200).send('Livro removido com sucesso.');
-});
+routes(app)
 
 export default app;
